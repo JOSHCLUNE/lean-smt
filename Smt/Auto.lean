@@ -9,6 +9,7 @@ import Auto.Tactic
 import Smt.Tactic.Smt
 
 open Lean in
+@[rebind Auto.Native.solverFunc]
 def Smt.smtSolverFunc (ls : Array Auto.Lemma) (is : Array Auto.Lemma) : MetaM Expr := do
   let fi l := do
     let userName ← mkFreshUserName `inst
