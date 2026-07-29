@@ -5,13 +5,30 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Tomaz Gomes Mascarenhas
 -/
 
-import Lean
-import Qq
+module
 
-import Smt.Reconstruct.Prop.Core
+public import Lean
+public meta import Lean
+public import Qq
+public meta import Qq
 
-private theorem ite_congr' {α} [Decidable c₁] [Decidable c₂] {x₁ x₂ y₁ y₂ : α} (h₁ : c₁ = c₂) (h₂ : x₁ = x₂) (h₃ : y₁ = y₂) : ite c₁ x₁ y₁ = ite c₂ x₂ y₂ := by
+public import Smt.Reconstruct.Prop.Core
+public meta import Smt.Reconstruct.Prop.Core
+
+public section
+
+namespace Smt.Reconstruct.UF
+
+/-- `smtCongrIte` puts this into the proof terms it hands back, so it has to be non-`meta` and
+`public`: it is the importing module that has to typecheck those proofs. It also lives in
+`Smt.Reconstruct.UF` rather than the root namespace so that it does not collide with the
+same-named lemmas in `Smt.Preprocess.Embedding` and `Smt.Preprocess.Normalize`. -/
+theorem ite_congr' {α} [Decidable c₁] [Decidable c₂] {x₁ x₂ y₁ y₂ : α} (h₁ : c₁ = c₂) (h₂ : x₁ = x₂) (h₃ : y₁ = y₂) : ite c₁ x₁ y₁ = ite c₂ x₂ y₂ := by
   congr
+
+end Smt.Reconstruct.UF
+
+public meta section
 
 namespace Smt.Reconstruct.UF
 

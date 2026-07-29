@@ -5,11 +5,20 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Abdalrhman Mohamed, Harun Khan
 -/
 
-import Lean.Meta.Native
-import Mathlib.Data.Rat.Cast.CharZero
-import Mathlib.Data.Real.Basic
-import Mathlib.Util.AtLocation
-import Smt.Recognizers
+module
+
+public import Lean.Meta.Native
+public meta import Lean.Meta.Native
+public import Mathlib.Data.Rat.Cast.CharZero
+public meta import Mathlib.Data.Rat.Cast.CharZero
+public import Mathlib.Data.Real.Basic
+public meta import Mathlib.Data.Real.Basic
+public import Mathlib.Util.AtLocation
+public meta import Mathlib.Util.AtLocation
+public import Smt.Recognizers
+public meta import Smt.Recognizers
+
+@[expose] public section
 
 namespace Smt.Reconstruct.Real.PolyNorm
 
@@ -404,6 +413,8 @@ theorem denote_eq_from_toPolynomial_eq {e₁ e₂ : RealExpr} (h : e₁.toPolyno
 
 end PolyNorm.RealExpr
 
+public meta section
+
 open Lean Qq
 
 abbrev PolyM := StateT (Array Q(Int) × Array Q(Real)) MetaM
@@ -476,6 +487,9 @@ partial def reifyReal (e : Q(Real)) : PolyM Q(PolyNorm.RealExpr) := do
     let v : Nat ← getRealIndex e
     return q(.var $v)
 
+-- `logPolynomial` below calls this module's own non-`meta` `PolyNorm` functions, which the
+-- phase-distinction check only allows within a single module under this option.
+set_option compiler.relaxedMetaCheck true in
 def polyNorm (mv : MVarId) : MetaM Unit := do
   let some (_, l, r) := (← mv.getType).eq?
     | throwError "[poly_norm] expected an equality, got {← mv.getType}"
@@ -490,6 +504,9 @@ def polyNorm (mv : MVarId) : MetaM Unit := do
   let h : Q(«$l».toPolynomial = «$r».toPolynomial) := .app q(@Eq.refl.{1} PolyNorm.Polynomial) q(«$l».toPolynomial)
   mv.assign q(@PolyNorm.RealExpr.denote_eq_from_toPolynomial_eq $ictx $rctx $l $r $h)
 
+-- `logPolynomial` below calls this module's own non-`meta` `PolyNorm` functions, which the
+-- phase-distinction check only allows within a single module under this option.
+set_option compiler.relaxedMetaCheck true in
 def nativePolyNorm (mv : MVarId) : MetaM Unit := do
   let some (_, l, r) := (← mv.getType).eq?
     | throwError "[poly_norm] expected an equality, got {← mv.getType}"
@@ -547,7 +564,11 @@ open Lean.Elab Tactic in
     Real.nativePolyNorm mv
     replaceMainGoal []
 
-end Smt.Reconstruct.Real.Tactic
+end Tactic
+
+end
+
+end Smt.Reconstruct.Real
 
 example (x y z : Real) : 1 * (x + y) * z / 4 = 1 / (2 * 2) * (z * y + x * z) := by
   poly_norm
