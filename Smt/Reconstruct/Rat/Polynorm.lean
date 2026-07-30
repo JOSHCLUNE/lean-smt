@@ -477,9 +477,6 @@ partial def reifyRat (e : Q(Rat)) : PolyM Q(PolyNorm.RatExpr) := do
     let v : Nat ← getRatIndex e
     return q(.var $v)
 
--- `logPolynomial` below calls this module's own non-`meta` `PolyNorm` functions, which the
--- phase-distinction check only allows within a single module under this option.
-set_option compiler.relaxedMetaCheck true in
 def polyNorm (mv : MVarId) : MetaM Unit := do
   let some (_, l, r) := (← mv.getType).eq?
     | throwError "[poly_norm] expected an equality, got {← mv.getType}"
@@ -494,9 +491,6 @@ def polyNorm (mv : MVarId) : MetaM Unit := do
   let h : Q(«$l».toPolynomial = «$r».toPolynomial) := .app q(@Eq.refl.{1} PolyNorm.Polynomial) q(«$l».toPolynomial)
   mv.assign q(@PolyNorm.RatExpr.denote_eq_from_toPolynomial_eq $ictx $rctx $l $r $h)
 
--- `logPolynomial` below calls this module's own non-`meta` `PolyNorm` functions, which the
--- phase-distinction check only allows within a single module under this option.
-set_option compiler.relaxedMetaCheck true in
 def nativePolyNorm (mv : MVarId) : MetaM Unit := do
   let some (_, l, r) := (← mv.getType).eq?
     | throwError "[poly_norm] expected an equality, got {← mv.getType}"
