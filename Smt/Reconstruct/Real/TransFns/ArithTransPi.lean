@@ -35,7 +35,7 @@ open Real
 
 namespace Smt.Reconstruct.Real.TransFns
 
-/-- Used to build the proof terms emitted by `arithTransPi`, so it must stay non-`meta`. -/
+-- Used to build the proof terms emitted by `arithTransPi`, so it must stay non-`meta`.
 theorem ratCast_le {x y : ℚ} : x ≤ y → (x : ℝ) ≤ (y : ℝ) :=
   Rat.cast_le.mpr
 

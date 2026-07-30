@@ -52,10 +52,6 @@ theorem ite_eq_true [Decidable c] : (if c then t else e) = true ↔ if c then (t
 
 namespace Smt.Preprocess.Embedding
 
-/-- `IteCongrSimproc` puts this into the proof terms it hands back, so it has to be non-`meta` and
-`public`: it is the importing module that has to typecheck those proofs. It also lives in
-`Smt.Preprocess.Embedding` rather than the root namespace so that it does not collide with the
-same-named lemmas in `Smt.Preprocess.Normalize` and `Smt.Reconstruct.UF`. -/
 theorem ite_congr' {α} [Decidable c₁] [Decidable c₂] {x₁ x₂ y₁ y₂ : α} (h₁ : c₁ = c₂) (h₂ : x₁ = x₂) (h₃ : y₁ = y₂) : ite c₁ x₁ y₁ = ite c₂ x₂ y₂ := by
   congr
 
