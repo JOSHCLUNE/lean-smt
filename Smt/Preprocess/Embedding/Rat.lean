@@ -97,7 +97,6 @@ attribute [embedding ↓] Rat.cast_intCast
 theorem Real.cast_intCast {n : Int} : (((n : Int) : Rat) : Real) = (n : Real) :=
   Rat.cast_intCast n
 
--- The only definition in this module, so it carries `@[expose]` itself rather than the section.
 open Classical in
 @[expose] noncomputable def Real.toRat (x : Real) : Rat :=
   if h : ∃ a b : Int, x = a / b then
