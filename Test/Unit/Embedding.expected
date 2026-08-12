@@ -1,11 +1,13 @@
 Test/Unit/Embedding.lean:32:22: warning: Variable name `h` is not explicitly referenced.
 
-The binding can be removed (if unused) or named `_` (if used implicitly).
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 Test/Unit/Embedding.lean:32:35: warning: Variable name `h2` is not explicitly referenced.
 
-The binding can be removed (if unused) or named `_` (if used implicitly).
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h2
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 Try this:
@@ -43,22 +45,8 @@ query:
 Test/Unit/Embedding.lean:336:52: error: unsolved goals
 f : ℤ → ℚ → ℚ
 ⊢ ∃ x n, f x n ≥ n
-Test/Unit/Embedding.lean:343:2: error: Application type mismatch: The argument
-  a
-has type
-  ℤ
-but is expected to have type
-  ℝ
-in the application
-  HDiv.hDiv a
-Test/Unit/Embedding.lean:349:2: error: Application type mismatch: The argument
-  a
-has type
-  ℤ
-but is expected to have type
-  ℝ
-in the application
-  HDiv.hDiv a
+Test/Unit/Embedding.lean:343:2: error: [poly_norm] expected a rational number, got x.7405
+Test/Unit/Embedding.lean:349:2: error: [poly_norm] expected a rational number, got x.7393
 goal: ∃ x ≥ 0, p x
 
 query:
@@ -95,11 +83,13 @@ h' : f x y ≠ f ↑y ⌊x⌋
 ⊢ False
 Test/Unit/Embedding.lean:372:108: warning: Variable name `next` is not explicitly referenced.
 
-The binding can be removed (if unused) or named `_` (if used implicitly).
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _next
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 Test/Unit/Embedding.lean:373:3: warning: Variable name `st_leader` is not explicitly referenced.
 
-The binding can be removed (if unused) or named `_` (if used implicitly).
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _st_leader
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
