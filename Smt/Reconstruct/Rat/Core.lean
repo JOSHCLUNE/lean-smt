@@ -193,10 +193,10 @@ theorem cast_lt1 {a b : Int} : Rat.ofInt a < Rat.ofInt b -> a < b := by
   cases h with
   | inl h =>
     let ⟨h1, h2⟩ := h
-    exact Int.lt_of_lt_of_le h1 h2
+    exact Int.lt_of_lt_of_le (of_decide_eq_true h1) (of_decide_eq_true h2)
   | inr h =>
     cases Classical.em (a = 0) with
-    | inl ha => simp [ha] at h; exact lt_of_eq_of_lt ha h
+    | inl ha => simp [ha] at h; exact lt_of_eq_of_lt ha (of_decide_eq_true h)
     | inr ha =>
       simp [ha] at h
       exact h.2
@@ -206,12 +206,14 @@ theorem cast_lt2 {a b : Int} : a < b → Rat.ofInt a < Rat.ofInt b := by
   simp only [Rat.lt_iff_blt, ofInt, mk_den_one]
   simp [Rat.blt]
   cases Classical.em (a = 0) with
-  | inl ha => simp [ha]; rw [ha] at h; exact h
+  | inl ha => simp [ha]; rw [ha] at h; exact decide_eq_true h
   | inr ha =>
       simp only [ha, ↓reduceIte]
       right
       constructor
-      · omega
+      · by_cases hpos : 0 < a
+        · exact Or.inr (decide_eq_false (Int.not_le.mpr (Int.lt_trans hpos h)))
+        · exact Or.inl (decide_eq_false hpos)
       · exact h
 
 theorem cast_lt' {a b : Int} : a < b ↔ Rat.ofInt a < Rat.ofInt b :=
@@ -225,21 +227,15 @@ theorem cast_le1 {a b : Int} : Rat.ofInt a ≤ Rat.ofInt b -> a ≤ b := by
   | inl hb =>
     simp [hb] at h
     rw [hb]
-    exact h
+    exact Int.not_lt.mp (of_decide_eq_false h)
   | inr hb =>
     simp [hb] at h
-    let ⟨h1, h2⟩ := h
-    cases Classical.em (a ≤ b) with
-    | inl hab => exact hab
-    | inr hab =>
-      have : ¬ a ≤ b → ¬ (b ≤ 0 ∨ 0 < a) := fun a_1 a => hab (h2 a)
-      have := this hab
-      rw [not_or] at this
-      let ⟨h3, h4⟩ := this
-      rw [Int.not_le] at h3
-      rw [Int.not_lt] at h4
-      have := Int.lt_of_le_of_lt h4 h3
-      exact Int.le_of_lt this
+    let ⟨_, h2⟩ := h
+    by_cases hb0 : 0 < b
+    · by_cases ha0 : a ≤ 0
+      · exact Int.le_of_lt (Int.lt_of_le_of_lt ha0 hb0)
+      · exact h2 (Or.inr (decide_eq_false ha0))
+    · exact h2 (Or.inl (decide_eq_false hb0))
 
 theorem cast_le2 {a b : Int} : a ≤ b → Rat.ofInt a ≤ Rat.ofInt b := by
   intro h
@@ -249,10 +245,14 @@ theorem cast_le2 {a b : Int} : a ≤ b → Rat.ofInt a ≤ Rat.ofInt b := by
   | inl hb =>
     simp [hb]
     rw [hb] at h
-    exact h
+    exact decide_eq_false (Int.not_lt.mpr h)
   | inr hb =>
     simp [hb]
-    constructor <;> omega
+    constructor
+    · intro hb0
+      exact decide_eq_false (Int.not_le.mpr (Int.lt_of_le_of_lt h (of_decide_eq_true hb0)))
+    · intro _
+      exact h
 
 theorem cast_le' {a b : Int} : a ≤ b ↔ Rat.ofInt a ≤ Rat.ofInt b :=
   ⟨ Rat.cast_le2, Rat.cast_le1 ⟩

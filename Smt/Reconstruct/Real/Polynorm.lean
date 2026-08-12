@@ -39,7 +39,7 @@ instance (v₁ v₂ : Var) : Decidable (v₁ ≤ v₂) :=
 instance (v₁ v₂ : Var) : Decidable (v₁ < v₂) :=
   if h : v₁.type < v₂.type ∨ (v₁.type = v₂.type ∧ v₁.val < v₂.val) then isTrue h else isFalse h
 
-def Context := Var → Real
+abbrev Context := Var → Real
 
 def IntContext := Nat → Int
 def RealContext := Nat → Real
