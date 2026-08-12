@@ -6,7 +6,7 @@ namespace Smt.Preprocess.Tactic
 
 syntax (name := embeddingTac) "embedding " ("[" term,* "]")? : tactic
 
-open Lean Elab Tactic in
+open Lean Elab Lean.Elab.Tactic in
 @[tactic embeddingTac] def evalEmbedding : Tactic
   | `(tactic| embedding [$hs,*]) => withMainContext do
     let mv ← getMainGoal

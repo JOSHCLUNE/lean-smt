@@ -4,7 +4,7 @@ namespace Smt.Preprocess.Tactic
 
 syntax (name := smtNormalize) "smt_normalize " ("[" term,* "]")? : tactic
 
-open Lean Elab Tactic in
+open Lean Elab Lean.Elab.Tactic in
 @[tactic smtNormalize] def evalSmtNormalize : Tactic.Tactic
   | `(tactic| smt_normalize [$hs,*]) => Lean.Elab.Tactic.withMainContext do
     let mv ← getMainGoal

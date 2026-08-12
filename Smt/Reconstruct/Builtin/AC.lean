@@ -11,7 +11,7 @@ public meta section
 
 namespace Lean.Meta.AC
 
-open Lean.Elab Tactic
+open Lean.Elab.Tactic
 
 /-- Similar to `rewriteUnnormalized`, but rewrite is only applied at the top level. -/
 def rewriteUnnormalizedTop (mv : MVarId) : MetaM Unit := do
