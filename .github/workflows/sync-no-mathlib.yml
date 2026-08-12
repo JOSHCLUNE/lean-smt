@@ -143,4 +143,6 @@ jobs:
     - name: Merge PR into no_mathlib
       env:
         GH_TOKEN: ${{ github.token }}
+      # Note: --squash is used below because Lean-SMT's repository settings prevent --merge from being used, but changing the repository settings to allow --merge
+      # would likely make it possible to make this workflow work more consistently
       run: gh pr merge "${{ needs.create-pr.outputs.pr-url }}" --squash --delete-branch

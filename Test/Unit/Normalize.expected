@@ -4,20 +4,22 @@ Map: []
 Map: []
 Before: [h]
 After: [h]
-Map: [(h, [_fvar.3039])]
-Map: [(_fvar.3058, [h])]
+Map: [(h, [_fvar.3048])]
+Map: [(_fvar.3067, [h])]
 Before: [hpqr, ht, ht', t]
 After: [hpqr, ht, ht', a✝]
-Map: [(hpqr, [_fvar.3527]), (ht', [_fvar.3528]), (a✝, [_fvar.3532]), (ht, [_fvar.3526])]
-Map: [(_fvar.3626, [hpqr]), (_fvar.3627, [ht']), (_fvar.3624, [_fvar.3532]), (_fvar.3625, [ht])]
+Map: [(ht, [_fvar.3537]), (ht', [_fvar.3539]), (a✝, [_fvar.3543]), (hpqr, [_fvar.3538])]
+Map: [(_fvar.3636, [ht]), (_fvar.3638, [ht']), (_fvar.3635, [_fvar.3543]), (_fvar.3637, [hpqr])]
 Test/Unit/Normalize.lean:54:22: warning: Variable name `h` is not explicitly referenced.
 
-The binding can be removed (if unused) or named `_` (if used implicitly).
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 Test/Unit/Normalize.lean:54:35: warning: Variable name `h2` is not explicitly referenced.
 
-The binding can be removed (if unused) or named `_` (if used implicitly).
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h2
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 Test/Unit/Normalize.lean:212:0: warning: declaration uses `sorry`
